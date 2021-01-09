@@ -70,10 +70,17 @@ class InstallCommand extends Command
         $this->info('Installing spatie/laravel-medialibrary...');
         $this->executeCommand('composer require spatie/laravel-medialibrary');
 
-        $this->info('Publishing media library migration files...');
+        $this->info('Publishing media library migrations...');
         $this->call('vendor:publish', [
             '--provider' => 'Spatie\MediaLibrary\MediaLibraryServiceProvider',
             '--tag' => 'migrations',
+            '--force' => 1,
+        ]);
+
+        $this->info('Publishing media library configuration...');
+        $this->call('vendor:publish', [
+            '--provider' => 'Spatie\MediaLibrary\MediaLibraryServiceProvider',
+            '--tag' => 'config',
             '--force' => 1,
         ]);
 

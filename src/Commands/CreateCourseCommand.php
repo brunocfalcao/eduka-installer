@@ -3,6 +3,7 @@
 namespace Eduka\Installer\Commands;
 
 use Illuminate\Support\Str;
+use Eduka\Cube\Models\Tenant;
 use Illuminate\Console\Command;
 use Symfony\Component\Process\Process;
 
@@ -58,6 +59,14 @@ class CreateCourseCommand extends Command
         $this->info('');
         $this->info('Creating tenant...');
 
+        $tenant = Tenant::create([
+            'name' => $name,
+            'tenancy_db_name' => str_replace(' ', '-', strtolower($name))
+        ]);
+
+        $tenant->domains()->create([
+            'domain' => $domain,
+        ]);
 
         return 0;
     }

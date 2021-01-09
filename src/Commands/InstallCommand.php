@@ -63,6 +63,20 @@ class InstallCommand extends Command
         $name = $this->ask('Continue?');
         $this->info('');
 
+        /**
+         * Register here all the packages that will generate migration
+         * files that will needed to be copied into the tenants folder.
+         **/
+        $this->info('Installing spatie/laravel-medialibrary...');
+        $this->executeCommand('composer require spatie/laravel-medialibrary');
+
+        $this->info('Publishing media library migration files...');
+        $this->call('vendor:publish', [
+            '--provider' => 'Spatie\MediaLibrary\MediaLibraryServiceProvider',
+            '--tag' => 'migrations',
+            '--force' => 1,
+        ]);
+
         $this->info('Creating folder database/migrations/tenant...');
         Storage::makeDirectory(database_path('migrations/tenant'));
         $this->info('');

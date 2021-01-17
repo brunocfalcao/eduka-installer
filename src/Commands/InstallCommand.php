@@ -40,12 +40,14 @@ class InstallCommand extends Command
     public function handle()
     {
         $this->info("
-             _   _
-            | \ | |
-            |  \| | ___ _ __ ___ _   _ ___
-            | . ` |/ _ \ '__/ _ \ | | / __|
-            | |\  |  __/ | |  __/ |_| \__ \
-            \_| \_/\___|_|  \___|\__,_|___/
+
+
+                ______     __        __
+               / ____/____/ /__  __ / /__ ____ _
+              / __/  / __  // / / // //_// __ `/
+             / /___ / /_/ // /_/ // ,<  / /_/ /
+            /_____/ \__,_/ \__,_//_/|_| \__,_/
+
 
             ");
 
@@ -128,11 +130,6 @@ class InstallCommand extends Command
         ]);
 
         $this->info('Copying laravel migration files into migrations/tenant folder...');
-
-        if (app()->environment() != 'production') {
-            $this->info('Installing ray...');
-            $this->executeCommand('composer require spatie/laravel-ray --dev');
-        }
 
         $this->info('');
         $this->info('All done! Now go and create some awesome courses!');

@@ -54,7 +54,7 @@ class CreateCourseCommand extends Command
         $this->info('');
 
         $name = $this->ask('What is the course name (E.g.: Mastering Nova)?');
-        $domain = $this->ask('What is the domain (E.g.: masteringnova.com)?');
+        $domain = $this->ask('What is the domain name (E.g.: masteringnova.com)?');
 
         $this->info('');
         $this->info('Creating tenant...');
@@ -64,6 +64,7 @@ class CreateCourseCommand extends Command
             'tenancy_db_name' => str_replace(' ', '-', strtolower($name))
         ]);
 
+        $this->info('Creating domain...');
         $tenant->domains()->create([
             'domain' => $domain,
         ]);

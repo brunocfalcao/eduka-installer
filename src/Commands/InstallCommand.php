@@ -51,9 +51,6 @@ class InstallCommand extends Command
 
             ");
 
-        ray()->ban();
-        ray(glob(database_path('migrations/*.php')));
-
         $this->info('Starting installation...');
         $this->info('');
 

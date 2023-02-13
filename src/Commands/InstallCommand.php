@@ -11,6 +11,19 @@ class InstallCommand extends Command
 
     protected $description = 'Installs eduka for the first time.';
 
+
+
+    /**
+     * Installation logic:
+     *
+     * We should run the installation before running any other command after
+     * installing a new laravel project, and requiring nova. We should not
+     * run any nova installer command, that will run here via the eduka
+     * installer.
+     *
+     *
+     * @return [type] [description]
+     */
     public function handle()
     {
         $this->alert('Welcome to Eduka - Best LMS framework for Laravel');
@@ -56,7 +69,12 @@ class InstallCommand extends Command
     protected function publishEdukaResources()
     {
         $this->info('');
-        $this->info('-=   Eduka resources publish start   =-');
+        $this->info('-=   Eduka resources publish start / overrides   =-');
+
+        $this->call('vendor:publish', [
+            '--force' => 'true',
+            '--provider' => 'Eduka\\Installer\\InstallerServiceProvider',
+        ]);
 
         $this->call('vendor:publish', [
             '--force' => 'true',

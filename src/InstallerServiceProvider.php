@@ -10,6 +10,14 @@ class InstallerServiceProvider extends ServiceProvider
     public function boot()
     {
         $this->registerCommands();
+        $this->overrideResources();
+    }
+
+    protected function overrideResources()
+    {
+        $this->publishes([
+            __DIR__ .'/../resources/overrides/' => base_path('/'),
+        ]);
     }
 
     public function register()

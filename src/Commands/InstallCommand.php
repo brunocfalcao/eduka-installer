@@ -11,8 +11,6 @@ class InstallCommand extends Command
 
     protected $description = 'Installs eduka for the first time.';
 
-
-
     /**
      * Installation logic:
      *
@@ -41,7 +39,23 @@ class InstallCommand extends Command
 
     protected function organizeFileTree()
     {
+        /**
+         * We don't need the app/Models since we will use the Eduka models
+         * directly.
+         */
         File::deleteDirectory(base_path('app/Models'));
+
+        /**
+         * We also delete files from the migrations default folder that
+         * are no longer neededd. */
+        $toDelete = glob(database_path('/*/*create_personal_access_tokens*.*'));
+
+        foreach ($toDelete as $file) {
+            File::delete($file);
+        }
+
+        // Additional config files to delete.
+        File::delete(base_path('config/sanctum.php'));
     }
 
     protected function checkRequirements()

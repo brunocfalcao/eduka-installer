@@ -36,5 +36,8 @@
                 "Eduka\\Installer\\InstallerServiceProvider"
             ]
         }
-    }
+    },
+
+    "minimum-stability": "dev",
+    "prefer-stable": true
 }

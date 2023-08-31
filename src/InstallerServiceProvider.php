@@ -13,16 +13,16 @@ class InstallerServiceProvider extends ServiceProvider
         $this->overrideResources();
     }
 
-    protected function overrideResources()
-    {
-        $this->publishes([
-            __DIR__ .'/../resources/overrides/' => base_path('/'),
-        ]);
-    }
-
     public function register()
     {
         //
+    }
+
+    protected function overrideResources()
+    {
+        $this->publishes([
+            __DIR__.'/../resources/overrides/' => base_path('/'),
+        ]);
     }
 
     protected function registerCommands()

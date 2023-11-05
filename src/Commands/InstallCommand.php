@@ -4,6 +4,8 @@ namespace Eduka\Installer\Commands;
 
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\File;
+use Symfony\Component\Process\Exception\ProcessFailedException;
+use Symfony\Component\Process\Process;
 
 class InstallCommand extends Command
 {
@@ -18,13 +20,12 @@ class InstallCommand extends Command
      * installing a new laravel project, and requiring nova. We should not
      * run any nova installer command, that will run here via the eduka
      * installer.
-     *
-     *
-     * @return [type] [description]
      */
     public function handle()
     {
         $this->alert('Welcome to Eduka - Best LMS framework for Laravel');
+
+        $this->confirm('Welcome to the Eduka installation. This installation will run also the Nova commands, so no need to run them before.');
 
         $this->checkRequirements();
 
@@ -34,7 +35,23 @@ class InstallCommand extends Command
 
         $this->publishEdukaResources();
 
+        $this->runMigrateFresh();
+
         return Command::SUCCESS;
+    }
+
+    protected function runMigrateFresh()
+    {
+        $migrateFreshProcess = new Process(['php', 'artisan', 'migrate:fresh', '--force']);
+        $migrateFreshProcess->run();
+
+        try {
+            if (! $migrateFreshProcess->isSuccessful()) {
+                throw new ProcessFailedException($migrateFreshProcess);
+            }
+        } catch (ProcessFailedException $e) {
+            return $this->error($e->getMessage());
+        }
     }
 
     protected function organizeFileTree()

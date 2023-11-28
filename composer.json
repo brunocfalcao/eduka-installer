@@ -16,7 +16,6 @@
     ],
     "require": {
         "php": "^8.0",
-        "brunocfalcao/eduka-nereus": "dev-master",
         "illuminate/contracts": "^10.0"
     },
     "autoload": {

@@ -3,6 +3,7 @@
 namespace Eduka\Installer\Commands;
 
 use Illuminate\Console\Command;
+use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\File;
 use Symfony\Component\Process\Exception\ProcessFailedException;
 use Symfony\Component\Process\Process;
@@ -25,11 +26,11 @@ class InstallCommand extends Command
     {
         $this->alert('Welcome to Eduka - Best LMS framework for Laravel');
 
-        $this->confirm('Welcome to the Eduka installation. This installation will run also the Nova commands, so no need to run them before.');
+        if (! $this->checkRequirements()) {
+            return;
+        }
 
-        $this->checkRequirements();
-
-        $this->organizeFileTree();
+        $this->importEdukaNereus();
 
         $this->publishLaravelResources();
 
@@ -37,7 +38,35 @@ class InstallCommand extends Command
 
         $this->runMigrateFresh();
 
+        $this->concatenateDotEnv();
+
+        $this->organizeFileTree();
+
         return Command::SUCCESS;
+    }
+
+    protected function concatenateDotEnv()
+    {
+        $this->info('Concatenating eduka dotDev into the Laravel dotDev...');
+        $customEnvPath = __DIR__.'/../../resources/dotenv/dotenv';
+        $laravelEnvPath = base_path('.env');
+        $customEnvContent = File::get($customEnvPath);
+        File::append($laravelEnvPath, $customEnvContent);
+    }
+
+    protected function importEdukaNereus()
+    {
+        $this->info('Importing Eduka Nereus from composer...');
+        $process = new Process(['composer', 'require', 'brunocfalcao/eduka-nereus']);
+        $process->run();
+
+        try {
+            if (! $process->isSuccessful()) {
+                throw new ProcessFailedException($process);
+            }
+        } catch (ProcessFailedException $e) {
+            return $this->error($e->getMessage());
+        }
     }
 
     protected function runMigrateFresh()
@@ -56,11 +85,15 @@ class InstallCommand extends Command
 
     protected function organizeFileTree()
     {
+        $this->info('Organizing project files...');
+
         /**
          * We don't need the app/Models since we will use the Eduka models
          * directly.
          */
         File::deleteDirectory(base_path('app/Models'));
+
+        File::delete(base_path('app/Nova/User.php'));
 
         /**
          * We also delete files from the migrations default folder that
@@ -77,10 +110,15 @@ class InstallCommand extends Command
 
     protected function checkRequirements()
     {
-        $this->info('');
-        $this->info('-=   Requirements check start   =-');
-        $this->info('-= Requirements check completed =-');
-        $this->info('');
+        // Verify if Nova is installed. If it's not, then exit.
+        $this->info('Checking if Nova is installed...');
+        if (! Application::getInstance()->getProvider(\App\Providers\NovaServiceProvider::class)) {
+            $this->error('Nova is not installed or not booted. Please verify your Nova installation.');
+
+            return false;
+        }
+
+        return true;
     }
 
     protected function publishLaravelResources()

@@ -32,6 +32,8 @@ class InstallCommand extends Command
 
         $this->importEdukaNereus();
 
+        $this->publishLaravelMigrations();
+
         $this->publishLaravelResources();
 
         $this->publishEdukaResources();
@@ -43,6 +45,13 @@ class InstallCommand extends Command
         $this->organizeFileTree();
 
         return Command::SUCCESS;
+    }
+
+    protected function publishLaravelMigrations()
+    {
+        $this->info('Publishing specific laravel migration files...');
+        run('php artisan queue:batches-table');
+        run('php artisan queue:failed-table');
     }
 
     protected function concatenateDotEnv()
@@ -62,11 +71,13 @@ class InstallCommand extends Command
 
         try {
             if (! $process->isSuccessful()) {
-                throw new ProcessFailedException($process);
+                return $result->errorOutput();
             }
         } catch (ProcessFailedException $e) {
-            return $this->error($e->getMessage());
+            return $result->errorOutput();
         }
+
+        return $result->output();
     }
 
     protected function runMigrateFresh()

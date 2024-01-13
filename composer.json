@@ -16,6 +16,7 @@
     ],
     "require": {
         "php": "^8.0",
+        "brunocfalcao/laravel-helpers": "dev-master",
         "illuminate/contracts": "^10.0"
     },
     "autoload": {

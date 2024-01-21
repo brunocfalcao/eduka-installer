@@ -35,13 +35,6 @@ return [
     ],
 
     /**
-     * Global configuration that is used to allow emails to be sent. This
-     * configuration is global, means that ALL emails will not be sent,
-     * neither the respective notification will be recorded (in case).
-     */
-    'stop_notifications' => env('EDUKA_STOP_NOTIFICATIONS', false),
-
-    /**
      * All the courses that are loaded into eduka, even if it's not rendered
      * at the moment by the visitor, need to be listed here. This way eduka
      * can perform activities like migrate, migrate:fresh, vendor publish,

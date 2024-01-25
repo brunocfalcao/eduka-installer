@@ -14,6 +14,15 @@
 return [
 
     /**
+     * Additional provider namespaces that we want to load no matter
+     * what courses are loaded or not. Any service provider registered here
+     * will ALWAYS be bootstrapped.
+     */
+    'load_providers' => [
+
+    ],
+
+    /**
      * If we need to skip the course detection on the Nereus service provider.
      * For instance, if we want to change the eduka database structure in the
      * migration files, we need to have this parameter true.

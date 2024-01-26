@@ -81,7 +81,9 @@ class InstallCommand extends Command
     protected function runMigrateFresh()
     {
         $migrateFreshProcess = new Process(['php', 'artisan', 'migrate:fresh', '--force']);
-        $migrateFreshProcess->run();
+        $output = $migrateFreshProcess->run();
+
+        $this->info($output);
 
         try {
             if (! $migrateFreshProcess->isSuccessful()) {

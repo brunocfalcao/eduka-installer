@@ -84,14 +84,6 @@ class InstallCommand extends Command
         $output = $migrateFreshProcess->run();
 
         $this->info($output);
-
-        try {
-            if (! $migrateFreshProcess->isSuccessful()) {
-                throw new ProcessFailedException($migrateFreshProcess);
-            }
-        } catch (ProcessFailedException $e) {
-            return $this->error($e->getMessage());
-        }
     }
 
     protected function organizeFileTree()

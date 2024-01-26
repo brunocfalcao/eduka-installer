@@ -76,8 +76,6 @@ class InstallCommand extends Command
         } catch (ProcessFailedException $e) {
             return $result->errorOutput();
         }
-
-        return $result->output();
     }
 
     protected function runMigrateFresh()

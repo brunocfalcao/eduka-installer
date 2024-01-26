@@ -67,7 +67,7 @@ class InstallCommand extends Command
     {
         $this->info('Importing Eduka Nereus from composer...');
         $process = new Process(['composer', 'require', 'brunocfalcao/eduka-nereus']);
-        $process->run();
+        $result = $process->run();
 
         try {
             if (! $process->isSuccessful()) {

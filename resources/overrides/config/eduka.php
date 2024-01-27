@@ -107,9 +107,21 @@ return [
     'skip_domain_detection' => env('EDUKA_SKIP_COURSE_DETECTION', false),
 
     /**
-     * What type of events should be triggered, by module type (observers)
+     * Control what events you want to trigger from the observers folder.
+     * Each event is the name of the observer class, in lowercase.
      */
     'events' => [
-        'observers' => env('EDUKA_EVENT_OBSERVERS', false),
+        'observers' => [
+            'chapter' => false,
+            'course' => 'false',
+            'link' => false,
+            'order' => false,
+            'series' => false,
+            'subscriber' => false,
+            'tag' => false,
+            'user' => false,
+            'variant' => false,
+            'video' => false
+        ]
     ],
 ];

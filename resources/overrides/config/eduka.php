@@ -121,7 +121,7 @@ return [
             'tag' => false,
             'user' => false,
             'variant' => false,
-            'video' => false
-        ]
+            'video' => false,
+        ],
     ],
 ];

@@ -27,7 +27,7 @@ return [
      * For instance, if we want to change the eduka database structure in the
      * migration files, we need to have this parameter true.
      */
-    'skip_domain_detection' => env('EDUKA_SKIP_DOMAIN_DETECTION', false),
+    'skip_course_detection' => env('EDUKA_SKIP_COURSE_DETECTION', false),
 
     'mail' => [
 
@@ -63,7 +63,8 @@ return [
      *      'provider-class' => 'MasteringNova\MasteringNovaServiceProvider',
      *   ],
      */
-    'courses' => [],
+    'courses' => [
+    ],
 
     'backend' => [
         /**
@@ -91,6 +92,8 @@ return [
      * e.g.: course-mastering-nova
      */
     'assets-transfer-vendors' => [
+        'course-mastering-nova',
+        'dev',
     ],
 
     /**
@@ -101,27 +104,21 @@ return [
     'lemon_squeezy_secret_key' => env('LEMON_SQUEEZY_SECRET_KEY', ''),
 
     /**
-     * Will load the eduka service providers without verifying
-     * if it's a frontend, backend, etc.
-     */
-    'skip_domain_detection' => env('EDUKA_SKIP_COURSE_DETECTION', false),
-
-    /**
      * Control what events you want to trigger from the observers folder.
      * Each event is the name of the observer class, in lowercase.
      */
     'events' => [
         'observers' => [
-            'chapter' => false,
-            'course' => 'false',
+            'chapter' => true,
+            'course' => true,
             'link' => false,
-            'order' => false,
+            'order' => true,
             'series' => false,
             'subscriber' => false,
             'tag' => false,
             'user' => false,
             'variant' => false,
-            'video' => false,
+            'video' => true,
         ],
     ],
 ];

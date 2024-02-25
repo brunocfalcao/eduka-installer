@@ -64,44 +64,27 @@ return [
      *   ],
      */
     'courses' => [
-    ],
 
-    'backend' => [
-        /**
-         * The backend url base domain. If a course is not matched, then it
-         * will try to match the respective default backend URL here.
-         *
-         * E.g.: brunofalcao.local
-         */
-        'url' => env('EDUKA_BACKEND_URL'),
-    ],
+        // E.g.: brunocfalcao/course-mastering-nova. Array key.
+        'brunocfalcao/course-mastering-nova-silver-surfer' => [
 
-    /**
-     * The assets transfer will run on each composer update to copy all
-     * the assets from resources/assets from each course landing page, and
-     * from the backend, to the main laravel resources path, grouped by
-     * vendor name. This is because the Vite::asset() on each course package
-     * doesn't locate assets inside the custom course package, but only
-     * on the main resource() folder.
-     *
-     * Each entry has the key as the vendor name so we can search it on the
-     * vendors/brunocfalcao directory. Inside it will always be
-     * resource/assets that will be copied to the main
-     * resources/<vendor-name>/assets.
-     *
-     * e.g.: course-mastering-nova
-     */
-    'assets-transfer-vendors' => [
-        'course-mastering-nova',
-        'dev',
-    ],
+            // E.g.: MasteringNova\Database\Seeders\MasteringNovaCourseSeeder
+            'seeder-class' => 'MasteringNovaSilverSurfer\Database\Seeders\MasteringNovaSilverSurferCourseSeeder',
 
-    /**
-     * The Lemon Squeezy Webhook secret key to validate the
-     * request signature header. Please add it on your Lemon Squeezy
-     * webhook dashboard and copy it to your .ENV file.
-     */
-    'lemon_squeezy_secret_key' => env('LEMON_SQUEEZY_SECRET_KEY', ''),
+            // E.g.: MasteringNova\MasteringNovaServiceProvider
+            'provider-class' => 'MasteringNovaSilverSurfer\MasteringNovaSilverSurferServiceProvider',
+        ],
+
+        // E.g.: brunocfalcao/course-mastering-nova. Array key.
+        'brunocfalcao/course-mastering-nova-orion' => [
+
+            // E.g.: MasteringNova\Database\Seeders\MasteringNovaCourseSeeder
+            'seeder-class' => 'MasteringNovaOrion\Database\Seeders\MasteringNovaOrionCourseSeeder',
+
+            // E.g.: MasteringNova\MasteringNovaServiceProvider
+            'provider-class' => 'MasteringNovaOrion\MasteringNovaOrionServiceProvider',
+        ],
+    ],
 
     /**
      * Control what events you want to trigger from the observers folder.
@@ -109,16 +92,18 @@ return [
      */
     'events' => [
         'observers' => [
-            'chapter' => true,
-            'course' => true,
+            'chapter' => false, //true
+            'course' => false, //true
             'link' => false,
-            'order' => true,
+            'order' => false, //true
+            'organization' => false, //true
+            'request_log' => false,
             'series' => false,
-            'subscriber' => false,
+            'subscriber' => false, //true
             'tag' => false,
-            'user' => false,
-            'variant' => false,
-            'video' => true,
+            'user' => false, //true
+            'variant' => false, //true
+            'video' => false,
         ],
     ],
 ];

@@ -103,7 +103,7 @@ return [
             'tag' => false,
             'student' => false, //true
             'variant' => true, //true
-            'video' => true,
+            'episode' => true,
         ],
     ],
 ];

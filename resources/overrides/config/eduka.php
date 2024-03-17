@@ -96,12 +96,12 @@ return [
             'course' => true, //true
             'link' => false,
             'order' => false, //true
-            'organization' => false, //true
+            'backend' => false, //true
             'request_log' => false,
             'series' => false,
             'subscriber' => false, //true
             'tag' => false,
-            'user' => false, //true
+            'student' => false, //true
             'variant' => true, //true
             'video' => true,
         ],

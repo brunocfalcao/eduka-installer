@@ -5,8 +5,9 @@ namespace Eduka\Installer\Commands;
 use Illuminate\Console\Command;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\File;
+//use Symfony\Component\Process\Process;
+use Illuminate\Support\Facades\Process;
 use Symfony\Component\Process\Exception\ProcessFailedException;
-use Symfony\Component\Process\Process;
 
 class InstallCommand extends Command
 {
@@ -32,6 +33,8 @@ class InstallCommand extends Command
 
         $this->importEdukaNereus();
 
+        dd('ok');
+
         $this->publishLaravelMigrations();
 
         $this->publishLaravelResources();
@@ -40,7 +43,7 @@ class InstallCommand extends Command
 
         $this->runMigrateFresh();
 
-        $this->concatenateDotEnv();
+        //$this->concatenateDotEnv();
 
         $this->organizeFileTree();
 
@@ -66,16 +69,20 @@ class InstallCommand extends Command
     protected function importEdukaNereus()
     {
         $this->info('Importing Eduka Nereus from composer...');
-        $process = new Process(['composer', 'require', 'brunocfalcao/eduka-nereus']);
-        $result = $process->run();
+        $result = Process::run('composer require brunocfalcao/eduka-nereus')->throw();
+        //$process = new Process(['composer', 'require', 'brunocfalcao/eduka-nereus']);
+        //$result = $process->run();
 
+        /*
         try {
             if (! $process->isSuccessful()) {
-                return $result->errorOutput();
+                $this->error($result->output());
+                //return $result->errorOutput();
             }
         } catch (ProcessFailedException $e) {
             return $result->errorOutput();
         }
+        */
     }
 
     protected function runMigrateFresh()

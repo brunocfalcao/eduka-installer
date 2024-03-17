@@ -49,14 +49,14 @@ return [
             'client_id' => env('VIMEO_CLIENT', 'your-client-id'),
             'client_secret' => env('VIMEO_SECRET', 'your-client-secret'),
             'access_token' => env('VIMEO_ACCESS', null),
-            'user_id' => env('VIMEO_USER', 'your-user-id'),
+            'student_id' => env('VIMEO_USER', 'your-user-id'),
         ],
 
         'alternative' => [
             'client_id' => env('VIMEO_ALT_CLIENT', 'your-alt-client-id'),
             'client_secret' => env('VIMEO_ALT_SECRET', 'your-alt-client-secret'),
             'access_token' => env('VIMEO_ALT_ACCESS', null),
-            'user_id' => env('VIMEO_USER', 'your-user-id'),
+            'student_id' => env('VIMEO_USER', 'your-user-id'),
         ],
 
     ],

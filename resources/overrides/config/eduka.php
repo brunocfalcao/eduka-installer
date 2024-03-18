@@ -101,9 +101,9 @@ return [
             'series' => false,
             'subscriber' => false, //true
             'tag' => false,
-            'student' => false, //true
+            'user' => false, //true
             'variant' => true, //true
-            'episode' => true,
+            'video' => true,
         ],
     ],
 ];

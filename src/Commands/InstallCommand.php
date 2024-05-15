@@ -5,9 +5,8 @@ namespace Eduka\Installer\Commands;
 use Illuminate\Console\Command;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\File;
-//use Symfony\Component\Process\Process;
 use Illuminate\Support\Facades\Process;
-use Symfony\Component\Process\Exception\ProcessFailedException;
+use Illuminate\Support\Facades\Validator;
 
 class InstallCommand extends Command
 {
@@ -25,15 +24,18 @@ class InstallCommand extends Command
      */
     public function handle()
     {
-        $this->alert('Welcome to Eduka - Best LMS framework for Laravel');
-
+        $this->info("
+,------.   ,--.        ,--.
+|  .---' ,-|  |,--.,--.|  |,-. ,--,--.
+|  `--, ' .-. ||  ||  ||     /' ,-.  |
+|  `---.\ `-' |'  ''  '|  \  \\ '-'  |
+`------' `---'  `----' `--'`--'`--`--'
+");
         if (! $this->checkRequirements()) {
             return;
         }
 
         $this->importEdukaNereus();
-
-        dd('ok');
 
         $this->publishLaravelMigrations();
 
@@ -43,7 +45,7 @@ class InstallCommand extends Command
 
         $this->runMigrateFresh();
 
-        //$this->concatenateDotEnv();
+        $this->concatenateDotEnv();
 
         $this->organizeFileTree();
 
@@ -69,28 +71,15 @@ class InstallCommand extends Command
     protected function importEdukaNereus()
     {
         $this->info('Importing Eduka Nereus from composer...');
-        $result = Process::run('composer require brunocfalcao/eduka-nereus')->throw();
-        //$process = new Process(['composer', 'require', 'brunocfalcao/eduka-nereus']);
-        //$result = $process->run();
-
-        /*
-        try {
-            if (! $process->isSuccessful()) {
-                $this->error($result->output());
-                //return $result->errorOutput();
-            }
-        } catch (ProcessFailedException $e) {
-            return $result->errorOutput();
-        }
-        */
+        $result = Process::run('composer require brunocfalcao/eduka-nereus');
+        $this->info($result->output());
     }
 
     protected function runMigrateFresh()
     {
-        $migrateFreshProcess = new Process(['php', 'artisan', 'migrate:fresh', '--force']);
-        $output = $migrateFreshProcess->run();
-
-        $this->info($output);
+        $this->info('Running migrate:fresh...');
+        $result = Process::run('composer require brunocfalcao/eduka-nereus');
+        $this->info($result->output());
     }
 
     protected function organizeFileTree()
@@ -128,6 +117,21 @@ class InstallCommand extends Command
             return false;
         }
 
+        $env = get_env_variables();
+        $validations = [
+            'NOVA_LICENSE_KEY' => 'required',
+        ];
+
+        $validator = Validator::make($env, $validations);
+
+        if ($validator->fails()) {
+            foreach ($validator->errors()->all() as $error) {
+                $this->error($error);
+            }
+
+            return false;
+        }
+
         return true;
     }
 
@@ -153,16 +157,6 @@ class InstallCommand extends Command
         $this->call('vendor:publish', [
             '--force' => 'true',
             '--provider' => 'Eduka\\Installer\\InstallerServiceProvider',
-        ]);
-
-        $this->call('vendor:publish', [
-            '--force' => 'true',
-            '--provider' => 'Eduka\\Nereus\\NereusServiceProvider',
-        ]);
-
-        $this->call('vendor:publish', [
-            '--force' => 'true',
-            '--provider' => 'Eduka\\Services\\ServicesServiceProvider',
         ]);
 
         $this->info('-= Eduka resources publish completed =-');

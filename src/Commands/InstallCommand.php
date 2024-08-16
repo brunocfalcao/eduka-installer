@@ -145,6 +145,21 @@ class InstallCommand extends Command
             '--tag' => 'laravel-mail',
         ]);
 
+        $this->call('vendor:publish', [
+            '--force' => 'true',
+            '--provider' => 'Spatie\\MediaLibrary\\MediaLibraryServiceProvider',
+        ]);
+
+        $this->call('vendor:publish', [
+            '--force' => 'true',
+            '--tag' => 'nova-media-library',
+        ]);
+
+        $this->call('vendor:publish', [
+            '--force' => 'true',
+            '--provider' => '',
+        ]);
+
         $this->info('-= Laravel resources publish completed =-');
         $this->info('');
     }
